@@ -1,0 +1,58 @@
+server:
+  port: 80
+
+spring:
+  application:
+    name: cloud-order-service # 在 Nacos 中显示的服务名
+  cloud:
+    nacos:
+      discovery:
+        server-addr: localhost:8848 # Nacos 的地址
+    sentinel:
+      transport:
+        dashboard: localhost:8858 # Sentinel控制台地址
+        port: 8719 # 默认8719，假如被占用会自动从8719+1依次扫描
+      # 配置持久化数据源
+      datasource:
+        # 名字随便起，代表流控规则
+        flow-rules:
+          nacos:
+            server-addr: localhost:8848
+            dataId: ${spring.application.name}-flow-rules # 建议：服务名-flow-rules
+            groupId: SENTINEL_GROUP
+            data-type: json
+            rule-type: flow # 代表这是流控规则
+
+
+
+#    # --- 下面是你要配置的部分 ---
+#    openfeign:
+#      client:
+#        config:
+#          default: # 这里的 default 表示对所有服务生效
+#            # 连接超时时间（毫秒）
+#            connectTimeout: 3000
+#            # 读取超时时间（毫秒）
+#            readTimeout: 3000
+
+feign:
+  client:
+    config:
+      default:
+        connect-timeout: 3000
+        read-timeout: 3000
+
+  httpclient:
+    hc5:
+      enabled: true # 开启 HttpClient5 支持
+  sentinel:
+    enabled: true # 开启 Feign 对 Sentinel 的支持
+
+logging:
+  level:
+    # 格式：接口的全类名: DEBUG
+    # 比如你的 Feign 接口在 com.abc.service 包下
+    com.itguigu.cloud.api.PayFeignApi: debug
+
+
+

@@ -1,0 +1,10 @@
+server:
+  port: 80
+
+spring:
+  application:
+    name: cloud-order-service # 在 Nacos 中显示的服务名
+  cloud:
+    nacos:
+      discovery:
+        server-addr: localhost:8848 # Nacos 的地址

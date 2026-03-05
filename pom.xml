@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <!-- 1. 继承 Spring Boot 2.x 的父工程 -->
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.7.18</version> <!-- 2.x 最后一个最稳定的维护版本 -->
+        <relativePath/>
+    </parent>
+
+    <groupId>com.atguigu.springcloud</groupId>
+    <artifactId>cloud2024</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
+
+    <modules>
+        <module>mybatis_generator2024</module>
+        <module>cloud-provider-payment8001</module>
+        <module>cloud-consumer-order80</module>
+        <module>cloud-api-commons</module>
+        <module>cloud-consumer-feign-order80</module>
+        <module>cloud-gateway9527</module>
+        <module>seata-order-service2001</module>
+        <module>seata-storage-service2002</module>
+        <module>seata-account-service2003</module>
+    </modules> <!-- 父工程必须是 pom -->
+
+    <!-- 2. 版本属性定义区 -->
+    <properties>
+        <maven.compiler.source>18</maven.compiler.source>
+        <maven.compiler.target>18</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+        <!-- Spring Cloud 与 Alibaba 核心版本适配 (针对 Boot 2.7.x) -->
+        <spring.cloud.version>2021.0.8</spring.cloud.version>
+        <spring.cloud.alibaba.version>2021.0.5.0</spring.cloud.alibaba.version>
+
+        <!-- 持久层与数据库 -->
+        <mybatis.springboot.version>2.3.1</mybatis.springboot.version>
+        <mysql.version>8.0.33</mysql.version>
+        <druid.version>1.2.16</druid.version>
+<!--        <mapper.version>4.2.3</mapper.version>-->
+<!--        <persistence-api.version>1.0.2</persistence-api.version>-->
+
+        <!-- 工具类版本 -->
+        <lombok.version>1.18.28</lombok.version>
+        <hutool.version>5.8.22</hutool.version>
+        <fastjson2.version>2.0.40</fastjson2.version>
+
+        <!-- Swagger/接口文档适配 Boot 2.x -->
+        <springdoc.version>1.6.14</springdoc.version>
+    </properties>
+
+    <!-- 3. 依赖版本管理 (只声明版本，子模块不写版本号时按此处执行) -->
+    <dependencyManagement>
+        <dependencies>
+            <!-- Spring Cloud 依赖清单 -->
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>${spring.cloud.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+            <!-- Spring Cloud Alibaba 依赖清单 -->
+            <dependency>
+                <groupId>com.alibaba.cloud</groupId>
+                <artifactId>spring-cloud-alibaba-dependencies</artifactId>
+                <version>${spring.cloud.alibaba.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+            <!-- MyBatis Starter (适配 Boot 2.x) -->
+            <dependency>
+                <groupId>org.mybatis.spring.boot</groupId>
+                <artifactId>mybatis-spring-boot-starter</artifactId>
+                <version>${mybatis.springboot.version}</version>
+            </dependency>
+
+            <!-- MySQL 驱动 -->
+            <dependency>
+                <groupId>mysql</groupId>
+                <artifactId>mysql-connector-java</artifactId>
+                <version>${mysql.version}</version>
+            </dependency>
+
+            <!-- Druid 连接池 -->
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>druid-spring-boot-starter</artifactId>
+                <version>${druid.version}</version>
+            </dependency>
+
+<!--            &lt;!&ndash; 通用 Mapper (tk.mybatis) &ndash;&gt;-->
+<!--            <dependency>-->
+<!--                <groupId>tk.mybatis</groupId>-->
+<!--                <artifactId>mapper-spring-boot-starter</artifactId>-->
+<!--                <version>${mapper.version}</version>-->
+<!--            </dependency>-->
+
+<!--            &lt;!&ndash; JPA 规范接口 (适配 Boot 2.x 的 javax 规范) &ndash;&gt;-->
+<!--            <dependency>-->
+<!--                <groupId>javax.persistence</groupId>-->
+<!--                <artifactId>persistence-api</artifactId>-->
+<!--                <version>${persistence-api.version}</version>-->
+<!--            </dependency>-->
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-boot-starter</artifactId>
+                <version>3.3.2</version>
+                <scope>compile</scope>
+            </dependency>
+
+
+            <!-- Swagger 接口文档 -->
+            <dependency>
+                <groupId>org.springdoc</groupId>
+                <artifactId>springdoc-openapi-ui</artifactId>
+                <version>${springdoc.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <!-- 4. 公共依赖 (所有子模块都会自动继承) -->
+    <dependencies>
+        <!-- Lombok -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>${lombok.version}</version>
+            <optional>true</optional>
+        </dependency>
+        <!-- Hutool 工具包 -->
+        <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-all</artifactId>
+            <version>${hutool.version}</version>
+        </dependency>
+        <!-- Fastjson2 -->
+        <dependency>
+            <groupId>com.alibaba.fastjson2</groupId>
+            <artifactId>fastjson2</artifactId>
+            <version>${fastjson2.version}</version>
+        </dependency>
+        <!-- 测试依赖 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <!-- 5. 编译插件配置 -->
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>${maven.compiler.source}</source>
+                    <target>${maven.compiler.target}</target>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>

@@ -1,0 +1,11 @@
+# bootstrap.yml
+spring:
+  application:
+    name: cloud-order-service # prefix   prefix：默认为服务名（spring.application.name）
+  profiles:
+    active: dev # 环境
+  cloud:
+    nacos:
+      config:
+        server-addr: localhost:8848 # Nacos地址
+        file-extension: yaml # 后缀
